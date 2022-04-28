@@ -14,12 +14,15 @@ export default Item
 
 const styles = StyleSheet.create({
     itemContainer: {
-        backgroundColor: colors.rosa,
+        backgroundColor: colors.violeta,
         paddingHorizontal: 15,
         paddingVertical: 5,
         borderRadius: 20,
+        marginVertical: 3,
     },
     text: {
-        color: colors.rosaClaro
+        color: colors.rosaClaro,
+        fontSize: 18,
+        marginVertical: 3,
     }
 })
