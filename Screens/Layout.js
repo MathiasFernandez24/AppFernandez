@@ -7,7 +7,18 @@ import ButtonContainer from '../Components/ButtonContainer'
 const Layout = () => {
 
     const [input, setInput] = useState("")
-    console.log(input);
+    const [todoList, setTodoList] = useState([])
+    // console.log(input);
+
+    const handleAdd = () => {
+        if (input !== "") {
+            setTodoList([...todoList, { id: Date.now(), text: input }])
+            setInput("");
+        }
+    }
+
+    console.log(todoList);
+
 
     return (
         <View style={styles.container}>
@@ -17,16 +28,23 @@ const Layout = () => {
                     onChangeText={setInput}
                     value={input}
                 />
-                <ButtonContainer />
+                <ButtonContainer onPress={handleAdd} />
             </View>
 
 
             <View style={styles.itemList}>
-                <Item item={{ id: 1, text: "Estudiar React Native" }}>  </Item>
+                {/* <Item item={{ id: 1, text: "Estudiar React Native" }}>  </Item>
                 <Item item={{ id: 2, text: "Estudiar React Native" }}>  </Item>
                 <Item item={{ id: 3, text: "Estudiar React Native" }}>  </Item>
                 <Item item={{ id: 4, text: "Estudiar React Native" }}>  </Item>
-                <Item item={{ id: 5, text: "Estudiar React Native" }}>  </Item>
+                <Item item={{ id: 5, text: "Estudiar React Native" }}>  </Item> */}
+                {todoList.length !== 0 ?
+                    todoList.map(item => {
+                        return <Item item={item} key={item.id} />
+                    })
+                    :
+                    <Text>No hay todos cargados</Text>
+                }
             </View>
 
         </View>

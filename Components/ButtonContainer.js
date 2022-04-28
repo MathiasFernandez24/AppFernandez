@@ -3,9 +3,9 @@ import React from 'react'
 import { colors } from '../Styles/Colors'
 import { TouchableOpacity } from 'react-native'
 
-const ButtonContainer = () => {
+const ButtonContainer = ({ onPress }) => {
     return (
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
             <Text style={styles.text}>Add todo</Text>
         </TouchableOpacity>
     )
