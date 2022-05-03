@@ -9,13 +9,13 @@ const Layout = () => {
     const [input, setInput] = useState("");
     const [todoList, setTodoList] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
-    const [idSelected, setIdSelected] = useState("");
+    const [todoSelected, setTodoSelected] = useState({});
 
     // console.log(input);
 
     const handleAdd = () => {
         if (input !== "") {
-            setTodoList([...todoList, { id: Date.now(), text: input }])
+            setTodoList([{ id: Date.now(), text: input }, ...todoList])
             setInput("");
         }
     }
@@ -23,21 +23,30 @@ const Layout = () => {
     console.log(todoList);
 
     const handleDelete = () => {
-        const todosFiltrados = todoList.filter(item => item.id !== idSelected)
+        const todosFiltrados = todoList.filter(item => item.id !== todoSelected.id)
         setTodoList(todosFiltrados);
         setModalVisible(false);
     }
-    const handleModal = (id) => {
+    const handleModal = (todoSelected) => {
         setModalVisible(true)
-        setIdSelected(id);
+        setTodoSelected(todoSelected);
     }
+    const handleEdit = (text) => {
+        const todoToEdit = todoList.find(todo => todo.id === todoSelected.id)
+        // const todoListFiltered = todoList.filter(todo => todo.id !== todoSelected.id)
+        todoToEdit.text = text
+        setTodoList([...todoList])
+    }
+
     const renderTodo = ({ item }) => <TodoItem onPress={handleModal} todo={item}></TodoItem>
+
 
 
     return (
         <View style={styles.container}>
             <View style={styles.topContainer}>
-                <TextInput style={styles.input}
+                <TextInput
+                    style={styles.input}
                     placeholder="Add todo"
                     onChangeText={setInput}
                     value={input}
@@ -52,7 +61,7 @@ const Layout = () => {
                 <Item item={{ id: 3, text: "Estudiar React Native" }}>  </Item>
                 <Item item={{ id: 4, text: "Estudiar React Native" }}>  </Item>
                 <Item item={{ id: 5, text: "Estudiar React Native" }}>  </Item> */}
-                {todoList.length !== 0 ?
+                {todoList.length > 0 ?
                     <FlatList
                         data={todoList}
                         keyExtractor={todo => todo.id}
@@ -63,7 +72,7 @@ const Layout = () => {
                     // No vamos a usar Map, se usa flatList, para que solo renderice lo que se ve
                     //    todoList.map(item => <Item item={item} key={item.id} />)
                     :
-                    <Text>No hay todos cargados</Text>
+                    <Text>No hay texto cargados</Text>
                 }
             </View>
             <Modal
@@ -80,10 +89,16 @@ const Layout = () => {
                             X
                         </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Add todo"
+                            onChangeText={handleEdit}
+                            value={todoSelected.text}
+                        />
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={handleDelete}>
-                        <Text>
-                            Eliminar todo
-                        </Text>
+                        <Text>Eliminar</Text>
                     </TouchableOpacity>
                 </View>
             </Modal>
@@ -119,7 +134,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
     },
     itemList: {
-        backgroundColor: colors.rosaClaro,
+        backgroundColor: colors.terciario,
         width: "100%",
         padding: 10,
         borderRadius: 5,
@@ -132,7 +147,7 @@ const styles = StyleSheet.create({
         marginLeft: 50,
         height: 200,
         width: 300,
-        backgroundColor: colors.rosa,
+        backgroundColor: colors.secundario,
         borderWidth: 1,
         borderRadius: 6,
         fontSize: 50,

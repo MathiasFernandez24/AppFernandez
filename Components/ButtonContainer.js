@@ -15,7 +15,7 @@ export default ButtonContainer
 
 const styles = StyleSheet.create({
     buttonContainer: {
-        backgroundColor: colors.rosa,
+        backgroundColor: colors.secundario,
         padding: 4,
         borderRadius: 10,
         borderWidth: 2,
