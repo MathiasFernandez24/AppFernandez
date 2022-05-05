@@ -1,26 +1,25 @@
-import { Modal, FlatList, TouchableOpacity, Button, TextInput, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { useState } from 'react'
-import TodoItem from '../Components/TodoItem'
-import { colors } from '../Styles/Colors'
-import ButtonContainer from '../Components/ButtonContainer'
+import Header from '../Components/Header'
+import Lista from '../Components/Lista/Index'
+import CoustomModal from '../Components/CoustomModal'
 
 const Layout = () => {
 
-    const [input, setInput] = useState("");
     const [todoList, setTodoList] = useState([]);
-    const [modalVisible, setModalVisible] = useState(false);
     const [todoSelected, setTodoSelected] = useState({});
+    const [modalVisible, setModalVisible] = useState(false);
 
-    // console.log(input);
 
-    const handleAdd = () => {
-        if (input !== "") {
+
+    const handleAdd = (input) => {
+        console.log("3° " + input);
+        {
             setTodoList([{ id: Date.now(), text: input }, ...todoList])
-            setInput("");
         }
     }
 
-    console.log(todoList);
+    //console.log(todoList);
 
     const handleDelete = () => {
         const todosFiltrados = todoList.filter(item => item.id !== todoSelected.id)
@@ -38,70 +37,20 @@ const Layout = () => {
         setTodoList([...todoList])
     }
 
-    const renderTodo = ({ item }) => <TodoItem onPress={handleModal} todo={item}></TodoItem>
-
 
 
     return (
         <View style={styles.container}>
-            <View style={styles.topContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Add todo"
-                    onChangeText={setInput}
-                    value={input}
-                />
-                <ButtonContainer onPress={handleAdd} />
-            </View>
+            <Header handleAdd={() => handleAdd()} />
+            <Lista handleModal={handleModal} todoList={todoList} />
+            <CoustomModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                handleEdit={handleEdit}
+                handleDelete={handleDelete}
+                todoSelected={todoSelected}
+            />
 
-
-            <View style={styles.itemList}>
-                {/* <Item item={{ id: 1, text: "Estudiar React Native" }}>  </Item>
-                <Item item={{ id: 2, text: "Estudiar React Native" }}>  </Item>
-                <Item item={{ id: 3, text: "Estudiar React Native" }}>  </Item>
-                <Item item={{ id: 4, text: "Estudiar React Native" }}>  </Item>
-                <Item item={{ id: 5, text: "Estudiar React Native" }}>  </Item> */}
-                {todoList.length > 0 ?
-                    <FlatList
-                        data={todoList}
-                        keyExtractor={todo => todo.id}
-                        renderItem={renderTodo}
-                    />
-
-
-                    // No vamos a usar Map, se usa flatList, para que solo renderice lo que se ve
-                    //    todoList.map(item => <Item item={item} key={item.id} />)
-                    :
-                    <Text>No hay texto cargados</Text>
-                }
-            </View>
-            <Modal
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.modalContainer}>
-                    <TouchableOpacity onPress={() => setModalVisible(false)}>
-                        <Text>
-                            X
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Add todo"
-                            onChangeText={handleEdit}
-                            value={todoSelected.text}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={handleDelete}>
-                        <Text>Eliminar</Text>
-                    </TouchableOpacity>
-                </View>
-            </Modal>
 
         </View>
 
@@ -119,39 +68,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: "100%",
     },
-    topContainer: {
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        padding: 10,
-        flex: 0.1,
-    },
-    input: {
-        borderRadius: 8,
-        borderWidth: 2,
-        width: "75%",
-        marginRight: 25,
-        paddingHorizontal: 12,
-    },
-    itemList: {
-        backgroundColor: colors.terciario,
-        width: "100%",
-        padding: 10,
-        borderRadius: 5,
-        //height: "90%", //en vez de flex se puede poner el %
-        flex: 0.9,
-    },
-    modalContainer: {
-        paddingLeft: 8,
-        marginTop: 50,
-        marginLeft: 50,
-        height: 200,
-        width: 300,
-        backgroundColor: colors.secundario,
-        borderWidth: 1,
-        borderRadius: 6,
-        fontSize: 50,
-
-    }
-
 })
