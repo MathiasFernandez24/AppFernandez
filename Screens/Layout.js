@@ -41,7 +41,9 @@ const Layout = () => {
 
     return (
         <View style={styles.container}>
-            <Header handleAdd={() => handleAdd()} />
+            {/* <Header handleAdd={(input) => handleAdd(input)} /> */}
+            <Header handleAdd={handleAdd} />
+
             <Lista handleModal={handleModal} todoList={todoList} />
             <CoustomModal
                 modalVisible={modalVisible}

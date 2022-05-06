@@ -20,7 +20,7 @@ const Header = ({ handleAdd }) => {
         <View style={styles.topContainer}>
             <TextInput
                 style={styles.input}
-                placeholder="Add todo"
+                placeholder="Escribir..."
                 onChangeText={setInput}
                 value={input}
             />

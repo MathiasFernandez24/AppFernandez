@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native'
 const ButtonContainer = ({ onPress }) => {
     return (
         <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
-            <Text style={styles.text}>Add todo</Text>
+            <Text style={styles.text}>Agregar</Text>
         </TouchableOpacity>
     )
 }

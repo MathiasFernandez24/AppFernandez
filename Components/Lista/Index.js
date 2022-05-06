@@ -33,7 +33,7 @@ const Lista = ({ handleModal, todoList }) => {
                 // No vamos a usar Map, se usa flatList, para que solo renderice lo que se ve
                 //    todoList.map(item => <Item item={item} key={item.id} />)
                 :
-                <Text>No hay Items cargados</Text>
+                <Text>No hay artículos cargados</Text>
             }
         </View>
     )
